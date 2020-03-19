@@ -1,5 +1,8 @@
 # What does fancy_divide([0, 2, 4], 0) print out? 0,error
 cindy change
+
+
+hahah
 def fancy_divide(numbers,index):
     try:
         denom = numbers[index]
