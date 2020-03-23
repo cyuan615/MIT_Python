@@ -1,5 +1,5 @@
 ## Week 2:
-
+"""
 # Simple Algorithms:
 # 1.
 s = 'aliwurfhacbdsj'
@@ -97,8 +97,111 @@ def is_even(i):
     return i % 2 == 0
 print(is_even(3))
 
+# Calling Functions and Scope
+# 1.
+def f_a():
+    print('inside f_a')
+
+def f_b(y):
+    print('inside f_b')
+    return y
+
+def f_c(z):
+    print('inside f_c')
+    return z()
+
+print(f_a())
+print(5 + f_b(2))
+print(f_c(f_a))
+
+# 2.
+def f(y):
+    x = 1
+    x += 1
+    print(x)
+
+x = 5
+f(x)
+print(x)
+
+def g(y):
+    print(x)
+    print(x + 1)
+
+x = 5
+g(x)
+print(x)
+
+def h(y):
+    x = x + 1
+
+x = 5
+h(x)
+print(x)
+
+# unboundLocalError: x referenced before assignment
+
+# 3.
+def g(x):
+    def h():
+        x = 'abc'
+    x = x + 1
+    print('in g(x): x =', x)
+    h()
+    return x
+
+x = 3
+z = g(x)
+
+# keywords arguments
+
+def printname(fn,ln,reverse):
+    if reverse:
+        print(ln + ', ' + fn)
+    else:
+        print(fn + ', ' + ln)
+
+printname('Cindy','Yuan', True)
+printname(fn = 'Cindy',ln = 'Yuan', reverse=True)
 
 
+# binding a default value to reverse
+def printname(fn,ln,reverse = False):
+    if reverse:
+        print(ln + ', ' + fn)
+    else:
+        print(fn + ', ' + ln)
+"""
+# Iteration and Recursion
+# 1. multiply
+def mult(a,b):
+    if b == 1:
+        return a
+    else:
+        return a + mult(a,b - 1)
+
+# 2.factorial n! = n * (n-1) * (n-2) * ....* 1
+def fact(n):
+    if n == 1:
+        return 1
+    else:
+        return n * fact(n-1)
+print(fact(5))
 
 
+# Inductive Reasoning
+# Towers of Hanoi
+
+def printMove(fr,to):
+    print('move from ' + str(fr) + ' to ' + str(to))
+
+def towers(n,fr,to,spare):
+    if n == 1:
+        printMove(fr,to)
+    else:
+        towers(n-1,fr,spare,to)
+        towers(1,fr,to,spare)
+        towers(n-1,spare,to,fr)
+
+# Fibonacci: multiple bases
 
