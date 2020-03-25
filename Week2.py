@@ -171,7 +171,7 @@ def printname(fn,ln,reverse = False):
         print(ln + ', ' + fn)
     else:
         print(fn + ', ' + ln)
-"""
+
 # Iteration and Recursion
 # 1. multiply
 def mult(a,b):
@@ -203,5 +203,78 @@ def towers(n,fr,to,spare):
         towers(1,fr,to,spare)
         towers(n-1,spare,to,fr)
 
+print(towers(5,1,2,3))
+
+
 # Fibonacci: multiple bases
 
+female(0) = 1
+female(1) = 1
+
+female(n) = female(n - 1) +  female(n - 2)
+
+
+def fib(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return fib(n-1) + fib(n-2)
+
+print(fib(6))
+
+
+# non numerical
+def toChars(s):
+    s = s.lower()
+    ans = ''
+    for c in s:
+        if c in 'abcdefghijklmnopqrstuvwxyz':
+            ans = ans + c
+    return ans
+
+def isPal(s):
+    if len(s) <= 1:
+        return True
+    else:
+        return s[0] == s[-1] and isPal(s[1:-1])
+
+
+def isPalindrome(s):
+## convert string to char and lower case and remove space
+    return isPal(toChars(s))
+
+#if __name__ == '__main__':
+print(isPalindrome('ifia'))
+"""
+def isPal1(s):
+    b = 0
+    e = -1
+
+    while b <= len(s)/2:
+        if s[b] not in 'abcdefghijklmnopqrstuvwxyz':
+            b += 1
+            continue
+        if s[e] not in 'abcdefghijklmnopqrstuvwxyz':
+            e -= 1
+            continue
+        if s[b] == s[e]:
+            b += 1
+            e -= 1
+        else:
+            return False
+            break
+    return True
+
+
+print(isPal1('abb ba'))
+
+
+
+
+
+
+
+
+
+
+# problem set 1:
