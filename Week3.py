@@ -106,7 +106,7 @@ l1 = [1,2,3,4]
 l2 = [1,2,5,6]
 remove_dups1(l1,l2)
 print(l1)
-"""
+
 # Functions as objects, dictionaries
 #####################################
 ########### Dictionary ##############
@@ -181,6 +181,38 @@ def fib_efficient(n,d):
 
 d = {1:1,2:2}
 print(fib_efficient(6,d))
+"""
+###########################################
+# Global Variables ####### ################
+###########################################
+def fib(n): #fib(n) = fib(n-1) + fib(n-2),
+    global numFibCalls
+    numFibCalls += 1
+    if n == 1:
+        return 1
+    elif n == 2:
+        return 2
+    else:
+        return fib(n-1) + fib(n-2) # recalculation
 
-# 
 
+def fib_efficient(n,d):
+    global numFibCalls
+    numFibCalls += 1
+    if n in d:
+        return d[n]
+    else:
+        ans = fib_efficient(n-1,d) + fib_efficient(n-2,d)
+        d[n] = ans # mutate dictionary # memorization
+        return ans
+
+numFibCalls = 0
+fibArg = 12
+
+print(fib(fibArg))
+print('function call', numFibCalls)
+
+numFibCalls = 0
+d = {1:1,2:2}
+print(fib_efficient(fibArg,d))
+print('function call', numFibCalls)
