@@ -245,7 +245,7 @@ def isPalindrome(s):
 
 #if __name__ == '__main__':
 print(isPalindrome('ifia'))
-"""
+
 def isPal1(s):
     b = 0
     e = -1
@@ -267,14 +267,34 @@ def isPal1(s):
 
 
 print(isPal1('abb ba'))
-
-
-
-
-
-
-
-
-
-
+"""
 # problem set 1:
+# 1. Method 1: for loop
+annualInterestRate = 0.2
+monthlyPaymentRate = 0.04
+def balance(n):
+    i = 1
+    newbalance = n
+    while i <= 12:
+
+        payment = newbalance * monthlyPaymentRate
+        unpaidbalance = newbalance - payment
+        newbalance = unpaidbalance * (1 + annualInterestRate / 12)
+        i += 1
+
+    return newbalance
+
+print(round(balance(42),2))
+
+# Method 2: recursion
+
+def balance1(n,i):
+
+    if i == 1:
+        return n
+    else:
+        return (0.96 * 0.2/12 + 0.96) * balance1(n,i-1)
+
+print(balance1(42,12))
+
+# Problem Set 2:
