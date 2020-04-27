@@ -1,16 +1,19 @@
+'''
 # Debugging example:
 def isPal(x):
     assert type(x) == list
-    temp = x
-    temp.reverse
+    temp = x[:]
+    temp.reverse()
+    print(temp,x)
     if temp == x:
         return True
     else:
         return False
 
+
 def silly(n):
+    result = []
     for i in range(n):
-        result = []
         elem = input('Enter an element: ')
         result.append(elem)
     if isPal(result):
@@ -18,4 +21,9 @@ def silly(n):
     else:
         print('no')
 
-silly(5)
+silly(2)
+'''
+
+a = 'abc'
+b = list(a)
+print(b)
