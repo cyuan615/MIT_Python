@@ -52,15 +52,14 @@ def isWordGuessed(secretWord, lettersGuessed):
     '''
     new = list(secretWord)
     for i in new:
-        if i in lettersGuessed:
-            i += 1
-        else:
+        if i not in lettersGuessed:
             return False
-    return True
+        else:
+            return True
 
-#secretWord = 'apple'
-#lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
-#print(isWordGuessed(secretWord, lettersGuessed))
+# secretWord = 'apple'
+# lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
+# print(isWordGuessed(secretWord, lettersGuessed))
 
 def getGuessedWord(secretWord, lettersGuessed):
     '''
@@ -75,13 +74,12 @@ def getGuessedWord(secretWord, lettersGuessed):
         if i in lettersGuessed:
             ans.append(i)
         else:
-            ans.append('_')
+            ans.append('_ ')
+    return(''.join(ans))
 
-    print(''.join(ans))
-
-#secretWord = 'apple'
-#lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
-#print(getGuessedWord(secretWord, lettersGuessed))
+# secretWord = 'sky'
+# lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
+# print(getGuessedWord(secretWord, lettersGuessed))
 
 
 def getAvailableLetters(lettersGuessed):
@@ -97,13 +95,10 @@ def getAvailableLetters(lettersGuessed):
     for i in new:
         if i not in lettersGuessed:
             ans.append(i)
+    return(''.join(ans))
 
-    print(''.join(ans))
-
-#lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
-#print(getAvailableLetters(lettersGuessed))
-
-
+# lettersGuessed = ['e', 'i', 'k', 'p', 'r', 's']
+# print(getAvailableLetters(lettersGuessed))
 
 def hangman(secretWord):
     '''
@@ -128,27 +123,38 @@ def hangman(secretWord):
 
 
     secretWordlist = list(chooseWord(wordlist))
+    print(secretWordlist)
+    # secrect word is a list
+    # length of secrect word
     print('length of secret word: ',len(secretWordlist))
+    # letterguessed is a list
     lettersGuessed = []
     numwrongguess = 0
-    for n in range(7):
+
+    for n in range(8):
+
         i = input('please type your guess: ')
+
         lettersGuessed.append(i)
+        print(lettersGuessed)
 
-
-        if i in lettersGuessed:
+        if i in secretWordlist:
             print('correct answer')
-        elif i not in getAvailableLetters(lettersGuessed):
-            print('try again')
         else:
-            numwrongguess += 1
             print('wrong answer')
+            numwrongguess += 1
 
-        print('Get Guess Word: ',getGuessedWord(secretWord,lettersGuessed))
+        print('Get Guessed Word: ', getGuessedWord(secretWordlist,lettersGuessed))
+
         print('Letters Guessed: ',lettersGuessed)
+
         print('Mistake Made: ', numwrongguess)
+
+        print('Opportunity You Have: ', 8-(n+1))
+
         print('Available Letters: ',getAvailableLetters(lettersGuessed))
 
+    print(isWordGuessed(secretWordlist,lettersGuessed))
 
 loadWords()
 secretWord = chooseWord(wordlist)
