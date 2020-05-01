@@ -91,7 +91,6 @@ print(oneHalf)
 print(oneHalf.getNumer()) # = print(fraction.getNumer(oneHalf)
 print(new.convert())
 print(sub)
-'''
 
 # Example 2: a set of integers
 class intset(object):
@@ -100,6 +99,7 @@ class intset(object):
     def insert(self,e):
         if e not in self.vals:
             self.vals.append(e)
+        return self.vals
     def member(self,e):
         return e in self.vals
     def remove(self,e):
@@ -114,4 +114,57 @@ class intset(object):
             result = result + str(e) + ','
         return '{' + result[:-1] + '}'
 
+s = intset()
+s.insert(5)
+print(s.member(3))
+print(s)
+'''
 
+########################################
+# Why OOP
+########################################
+# 1.
+class Animal(object):
+    def __init__(self,age):
+        self.age = age
+        self.name = None
+    def get_age(self):
+        return self.age
+    def get_name(self):
+        return self.name
+    def set_age(self,newage):
+        self.age = newage
+    def set_name(self,newname):
+        self.name = newname
+    def __str__(self):
+        return "animal:" + str(self.name) + ":" + str(self.age)
+# getter and setter could be used outside of class to access data attributes
+myAnimal = Animal(3)
+# print(myAnimal)
+myAnimal.set_name('chang')
+# print(myAnimal)
+
+########################################
+# Hierarchies:
+########################################
+class Cat(Animal):
+    def speak(self):
+        print("meow")
+    def __str__(self):
+        return "cat:" + str(self.name) + ":" + str(self.age) # override behaviour
+
+jelly = Cat(1)
+print(jelly.get_name())
+jelly.set_name('JellyBelly')
+print(jelly.get_name())
+print(jelly)
+
+class Rabbit(Animal):
+    def speak(self):
+        return "meep"
+    def __str__(self):
+        return "rabbit:" + str(self.name) + ":" + str(self.age)
+
+Peter = Rabbit(5)
+print(jelly.speak())
+print(Peter.speak())
