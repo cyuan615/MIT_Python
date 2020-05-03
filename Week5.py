@@ -168,3 +168,35 @@ class Rabbit(Animal):
 Peter = Rabbit(5)
 print(jelly.speak())
 print(Peter.speak())
+
+class Person(Animal):
+    def __init__(self,name,age):
+        Animal.__init__(self,age)
+        Animal.set_name(self,name)
+        self.friends = []
+    def get_friends(self):
+        return self.friends
+    def add_friend(self,fname):
+        if name not in self.friends:
+            self.friends.append(fname)
+    def speak(self):
+        print('hello')
+    def age_diff(self,other):
+        diff = self.get_age() - other.get_age()
+        return diff
+    def __str__(self):
+        return "person:" + str(self.name) + ":" + str(self.age)
+
+Eric = Person('eric',45)
+print(Eric)
+other = Person('Cindy',18)
+print(Eric.age_diff(other))
+
+
+class Student(Person):
+    def __init__(self,name,age,major = None):
+        Person.__init__(self,name,age)
+        self.major = major
+    def change_mejor(self,major):
+        self = major
+
