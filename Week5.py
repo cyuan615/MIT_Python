@@ -3,7 +3,7 @@
 ##############################
 # class Classname(object): Chang's example
 #     <define attributes here>
-
+"""
 import math
 
 class Coordinate(object):
@@ -277,4 +277,78 @@ mopsy.set_name('Mopsy')
 print(cotton.rid)
 print(mopsy.rid)
 print(mopsy.__eq__(cotton))
+"""
+
+########################################
+# Building a class
+########################################
+import datetime
+class Person(object):
+    def __init__(self,name):
+        self.name = name
+        self.birthday = None
+        self.lastName = name.split(' ')[-1]
+
+    def getLastName(self):
+        return self.lastName
+
+    def __str__(self):
+        return self.name
+
+    def setBirthday(self,month,day,year):
+        self.birthday = datetime.date(year,month,day)
+
+    def getAge(self):
+        if self.birthday == None:
+            raise ValueError
+        return (datetime.date.today() - self.birthday).days
+
+    def __lt__(self,other): # sort function
+        if self.lastName == other.lastName:
+            return self.name < other.name
+        return self.lastName < other.lastName
+
+    def __str__(self):
+        return self.name
+
+# cindy = Person('Cindy Yuan')
+# cindy.setBirthday(6,15,1992)
+# print(cindy.lastName)
+# print(cindy.birthday)
+# print(cindy.getAge())
+
+# p1 = Person('Chang Liu')
+# p1.setBirthday(5,7,1993)
+# p2 = Person('Cindy Yuan')
+# p2.setBirthday(6,15,1992)
+# p3 = Person('Qian Lin')
+# p3.setBirthday(8,14,1995)
+#
+# personList = [p1,p2,p3]
+# personList.sort()
+#
+# for e in personList:
+#     print(e)
+#
+
+
+class MITPerson(Person):
+
+    nextIdNum = 0
+
+    def __init__(self,name):
+        Person.__init__(self,name)
+        self.idNum = MITPerson.nextIdNum
+        MITPerson.nextIdNum += 1
+
+    def getIdNum(self):
+        return self.idNum
+
+    def __lt__(self,other):
+        return self.idNum < other.idNum
+
+    def speak(self,utterance):
+        return (self.getLastName() + "says: " + utterance)
+
+
 
