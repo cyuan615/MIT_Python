@@ -311,18 +311,21 @@ class Person(object):
     def __str__(self):
         return self.name
 
+    def speak(self,utterance):
+        return (self.getLastName() + " says: " + utterance)
+
 # cindy = Person('Cindy Yuan')
 # cindy.setBirthday(6,15,1992)
 # print(cindy.lastName)
 # print(cindy.birthday)
 # print(cindy.getAge())
 
-# p1 = Person('Chang Liu')
-# p1.setBirthday(5,7,1993)
-# p2 = Person('Cindy Yuan')
-# p2.setBirthday(6,15,1992)
-# p3 = Person('Qian Lin')
-# p3.setBirthday(8,14,1995)
+# m1 = Person('Chang Liu')
+# m1.setBirthday(5,7,1993)
+# m2 = Person('Cindy Yuan')
+# m2.setBirthday(6,15,1992)
+# m3 = Person('Qian Lin')
+# m3.setBirthday(8,14,1995)
 #
 # personList = [p1,p2,p3]
 # personList.sort()
@@ -330,7 +333,6 @@ class Person(object):
 # for e in personList:
 #     print(e)
 #
-
 
 class MITPerson(Person):
 
@@ -348,7 +350,171 @@ class MITPerson(Person):
         return self.idNum < other.idNum
 
     def speak(self,utterance):
-        return (self.getLastName() + "says: " + utterance)
+        return (self.getLastName() + " says: " + utterance)
+#
+p1 = MITPerson('Eric')
+p2 = MITPerson('John')
+p3 = MITPerson('John')
+p4 = Person('John')
+#
+# print(p1.idNum)
+# print(p2.idNum)
+#
+# print(p1 < p2) # --> p1.__lt__(p2)  MITPerson.__lt__
+# # print(p1 < p4) # --> p1.__lt__(p4)
+# print(p4 < p1) # --> p4.__lt__(p1)   Person.__lt__
+
+
+#############################
+# Add another class
+#############################
+class Student(MITPerson):
+    pass
+
+class UG(Student):
+    def __init__(self,name,classYear):
+        MITPerson.__init__(self,name)
+        self.year = classYear
+
+    def getClass(self):
+        return self.year
+
+    def speak(self,utterance):
+        return MITPerson.speak(self, " Dude, " + utterance)
+
+class Grad(Student):
+    pass
+
+class TransferStudent(Student):
+    pass
+
+def isStudent(obj):
+    # return isinstance(obj,UG) or isinstance(obj,Grad) or isinstance(obj,TransferStudent)
+    return isinstance(obj,Student)
+
+# s1 = UG('Matt Damon',2017)
+# s2 = UG('Ben Affleck',2017)
+# s3 = UG('Lin Manuel Mirande',2018)
+# s4 = Grad('Leonardo di Caprio')
+# #
+# print(s1)
+# print(s1.getClass())
+# print(s1.speak('where is the quiz?'))
+# print(s2.speak('I have no idea'))
+#
+# print(isStudent(s3))
+
+
+#############################
+# Using Inherited Methods
+#############################
+class Professor(MITPerson):
+    def __init__(self,name,department):
+        MITPerson.__init__(self,name)
+        self.department = department
+
+    def speak(self,utterance):
+        new = 'In course ' + self.department + ' we say '
+        return MITPerson.speak(self,new + utterance)
+
+    def lecture(self,topic):
+        return self.speak('it is obvious that ' + topic)
+
+
+# print(m1.speak('hi there'))
+# print(s1.speak('Hi, there'))
+#
+# faculty = Professor('Doctor Arrogant','six')
+# print(faculty.speak('hi, there'))
+#
+# print(faculty.lecture('hi, there'))
+
+
+#############################
+# Gradebook Example
+#############################
+# create class that includes instances of other classes within it
+class Grades(object):
+    def __init__(self):
+        self.students = []
+        self.grades = {}
+        self.isSorted = True
+
+    def addStudent(self,student):
+        # assume student is a type of Student
+        if student in self.students:
+            raise ValueError('Duplicate student')
+        self.students.append(student)
+        self.grades[student.getIdNum()] = []
+        self.isSorted = False
+
+    def addGrade(self,student,grade):
+        try:
+            self.grades[student.getIdNum()].append(grade)
+        except:
+            raise ValueError ('Student not in grade book')
+
+    def getGrade(self,student):
+        try:
+            a = student.getIdNum()
+            b = self.grades[a]
+            return b[:] # return a copy
+        except:
+            raise ValueError('Student not in grade book')
+
+    def allStudents(self):
+        if not self.isSorted:
+            self.students.sort()
+            self.isSorted = True
+        return self.students[:] # return a copy
+
+def gradeReport(course):
+        # assume course is of type grades
+    report = []
+    for s in course.allStudents():
+        tot = 0.0
+        numGrades = 0
+        for g in course.getGrade(s):
+            tot += g
+            numGrades += 1
+        try:
+            average = tot/numGrades
+            report.append(str(s) + '\'s mean grade is ' + str(average))
+        except ZeroDivisionError:
+            report.append(str(s) + ' has no grades')
+    return '\n'.join(report)
+
+
+ug1 = UG('Matt Damon',2018)
+ug2 = UG('Ben Affleck',2019)
+ug3 = UG('Drew Houston',2017)
+ug4 = UG('Mark Zuckerberg',2017)
+g1 = Grad('Bill Gates')
+g2 = Grad('Steve Wozniak')
+
+six00 = Grades()
+
+six00.addStudent(g1)
+six00.addStudent(ug1)
+six00.addStudent(g2)
+six00.addStudent(ug2)
+six00.addStudent(ug3)
+six00.addStudent(ug4)
+
+six00.addGrade(g1,100)
+six00.addGrade(g1,90)
+six00.addGrade(g2,25)
+six00.addGrade(g2,45)
+six00.addGrade(ug1,95)
+six00.addGrade(ug1,80)
+six00.addGrade(ug2,85)
+six00.addGrade(ug2,75)
+six00.addGrade(ug3,75)
+six00.addGrade(ug4,45)
+
+print(gradeReport(six00))
+
+#print(six00.getGrade(ug4))
 
 
 
