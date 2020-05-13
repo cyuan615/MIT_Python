@@ -121,7 +121,7 @@ class Message(object):
                 shifdict[alphabetU[n]] = alphabetU[n + shift - 26]
         return shifdict
 
-    def apply_shift(self, shift):
+    def apply_shift(self,shift):
         '''
         Applies the Caesar Cipher to self.message_text with the input shift.
         Creates a new string that is self.message_text shifted down the
@@ -135,14 +135,11 @@ class Message(object):
         '''
 
         messagelist = list(self.get_message_text())
-        print(messagelist)
-
 
         for i in range(len(messagelist)):
-
-            messagelist[i] = self.build_shift_dict(shift)[messagelist[i]]
-
-        print(messagelist)
+            if messagelist[i] in self.build_shift_dict(shift).keys():
+                messagelist[i] = self.build_shift_dict(shift)[messagelist[i]]
+        return (''.join(messagelist))
 
 # a = Message('abc')
 # print(a.get_message_text())
@@ -184,7 +181,7 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encrypting_dict
         '''
-        return self.build_shift_dict().copy()
+        return self.build_shift_dict(self.shift).copy()
 
 
     def get_message_text_encrypted(self):
@@ -193,7 +190,7 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
-        return self.apply_shift(shift)
+        return self.apply_shift(self.shift)
 
 
     def change_shift(self, shift):
@@ -209,25 +206,14 @@ class PlaintextMessage(Message):
         '''
         self.shift = shift
 
-Cindy = PlaintextMessage('Cindy',5)
-print(Cindy.get_shift())
-Cindy.change_shift(7)
-print(Cindy.get_shift())
-print(Cindy.apply_shift(7))
-
+# Cindy = PlaintextMessage('Cindy',5)
+# print(Cindy.get_message_text_encrypted())
+# Cindy.change_shift(7)
+# print(Cindy.get_shift())
 
 class CiphertextMessage(Message):
     def __init__(self, text):
-        '''
-        Initializes a CiphertextMessage object
-                
-        text (string): the message's text
-
-        a CiphertextMessage object has two attributes:
-            self.message_text (string, determined by input text)
-            self.valid_words (list, determined using helper function load_words)
-        '''
-        pass #delete this line and replace with your code here
+        Message.__init__(self, text)
 
     def decrypt_message(self):
         '''
@@ -245,15 +231,34 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        pass #delete this line and replace with your code here
+
+        resultlist = []
+        dict = {}
+        for s in range(26):
+            resultlist.append(self.apply_shift(s))
+            num = 0
+            for w in self.apply_shift(s).split(' '):
+                if w in self.valid_words:
+                    num += 1
+            dict[s] = num
+
+        max = 0
+        for m in dict.keys():
+            if dict[m] > max:
+                max = dict[m]
+
+        for m,n in dict.items():
+            if n == max:
+                return m
 
 #Example test case (PlaintextMessage)
-plaintext = PlaintextMessage('hello', 2)
-print('Expected Output: jgnnq')
-print('Actual Output:', plaintext.get_message_text_encrypted())
-    
+# plaintext = PlaintextMessage('you are my love', 2)
+# #print('Expected Output: jgnnq')
+# print('Actual Output:', plaintext.get_message_text_encrypted())
+
 #Example test case (CiphertextMessage)
-ciphertext = CiphertextMessage('jgnnq')
-print('Expected Output:', (24, 'hello'))
-print('Actual Output:', ciphertext.decrypt_message())
-"""
+ciphertext = CiphertextMessage('aqw ctg oa nqxg')
+print('Actual Input:', ciphertext.decrypt_message())
+
+
+
